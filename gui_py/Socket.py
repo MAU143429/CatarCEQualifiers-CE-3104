@@ -1,29 +1,33 @@
 import socket
+
 import sys
 
-# Create a TCP/IP socket
+# SE CREA LA ESTRUCTURA DEL SOCKET
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Bind the socket to the port
+# SE ESCOGEN LA IP Y EL PUERTO EN DONDE SE UBICARÁ EL SOCKET
 server_address = ('localhost', 9876)
 print('starting up on {} port {}'.format(*server_address))
 sock.bind(server_address)
 
-# Listen for incoming connections
+# SE ABRE LA CONEXION CON EL SOCKET
 sock.listen(1)
 
 while True:
-    # Wait for a connection
+    # SE ESPERA LA CONEXION DE UN CLIENTE
     print('waiting for a connection')
+
+    #SE CONECTAN
     connection, client_address = sock.accept()
     try:
         print('connection from', client_address)
 
-        # Receive the data in small chunks and retransmit it
+        # SE CREA UN BUCLE QUE SE QUEDA ESPERANDO POR MENSAJES
         while True:
             data = connection.recv(3600)
             print(data.decode('ascii'))
-            print('received {!r}'.format(data))
+            msg_rcv = data.decode('ascii')
+
             if data:
                 print('sending data back to the client')
                 connection.sendall(data)
@@ -32,5 +36,5 @@ while True:
                 break
 
     finally:
-        # Clean up the connection
+        # SE CIERRA LA CONEXION
         connection.close()

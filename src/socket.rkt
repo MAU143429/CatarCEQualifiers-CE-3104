@@ -6,7 +6,9 @@
   (flush-output out)
   (display "Response: ")
   (displayln (read-line in)))
-(msg "hello world")
+
+
+(msg '( ( 6 7 8 9 1) "," (1 2 3 4 5) "///" (1 2 3 4 5) "," (1 2 3 4 5)))
 (msg "ESP32 rocks")
 (msg "HOLA SOY LAS PROXIMAS GENERACIONES DE CATAR CE QUALIFIERS")
 (close-input-port in)
