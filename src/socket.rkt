@@ -8,8 +8,6 @@
   (displayln (read-line in)))
 
 
-(msg '( ( 6 7 8 9 1) "," (1 2 3 4 5) "///" (1 2 3 4 5) "," (1 2 3 4 5)))
-(msg "ESP32 rocks")
-(msg "HOLA SOY LAS PROXIMAS GENERACIONES DE CATAR CE QUALIFIERS")
+(msg '( ( 6 7 8 9 1)  (1 2 3 4 5) / (1 2 3 4 5)  (1 2 3 4 5) ))
 (close-input-port in)
 (close-output-port out)

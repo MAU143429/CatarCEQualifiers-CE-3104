@@ -1,5 +1,5 @@
 import socket
-
+import classify_action
 import sys
 
 # SE CREA LA ESTRUCTURA DEL SOCKET
@@ -27,6 +27,11 @@ while True:
             data = connection.recv(3600)
             print(data.decode('ascii'))
             msg_rcv = data.decode('ascii')
+            action = classify_action.classify_action()
+            translated = action.translate_sms(msg_rcv)
+            action.translate_sms("START (4 4 2) (4 3 3)")
+            print(translated)
+
 
             if data:
                 print('sending data back to the client')
@@ -38,3 +43,4 @@ while True:
     finally:
         # SE CIERRA LA CONEXION
         connection.close()
+

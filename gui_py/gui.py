@@ -3,6 +3,9 @@ import players as players
 import player
 import board
 
+global team_1_structure
+global team_2_structure
+
 '''
 Se inicializa el pygame
 '''
@@ -22,9 +25,9 @@ bg = pygame.image.load("bg.png")
 
 table = board.board()
 table.create_board()
-table.print_boxes()
-table.print_posx()
-table.print_posy()
+#table.print_boxes()
+#table.print_posx()
+#table.print_posy()
 
 running = True
 while running:
@@ -47,7 +50,7 @@ while running:
     window.blit(players.player10_t1, (550 , 200))
     window.blit(players.player11_t1, (550 , 350))
 
-    #Formacion
+    #E
 
     window.blit(players.player1_t2, (1150 , 250))
     window.blit(players.player2_t2, (1100 , 100))
