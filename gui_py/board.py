@@ -1,7 +1,13 @@
 import box
 
+'''
+Esta clase se encarga de crear la matriz que permitira tener el control de los jugadores y sus movimientos
+'''
 class board():
 
+    '''
+    Constructor de la clase, define algunos valores como las filas y columnas de la matriz
+    '''
     def __init__(self):
         self.board = []
         self.boxes = 1
@@ -9,8 +15,9 @@ class board():
         self.COLUMN = 24 # Cantidad de columnas
         self.DIMENSION = 50 # Dimension de cada casilla
 
-
-
+    '''
+    Este metodo crea el tablero, anidando listas de objetos box
+    '''
     def create_board(self):
         COORDX = 0
         COORDY = 0
@@ -31,6 +38,13 @@ class board():
         self.ROWS = 12
 
 
+
+
+
+
+    '''
+    ELIMINAR ESTOS METODOSSSSS AL FINAL DEL PROYECTO.
+    '''
     def print_boxes(self):
         rows = 0
         cols = 0
