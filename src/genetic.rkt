@@ -68,3 +68,9 @@ fuerza: fureza con la que le da a la bola
 (get-movement (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
 
 (get-speed (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
+(print "Genetico")
+
+; Genetic Algorithm definition
+
+(define (genetic generations)
+  (make-bit-vector (string->bit-vector())))
