@@ -38,3 +38,10 @@ Imagen del balon
 '''
 
 ball = pygame.image.load("balon.png")
+
+'''
+Icono y Fondos
+'''
+bg1 = pygame.image.load("start.png")
+icon = pygame.image.load("icon.png")
+main_bg = pygame.image.load("bg.png")
