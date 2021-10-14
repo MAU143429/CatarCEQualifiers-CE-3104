@@ -1,5 +1,8 @@
-import gui
+import game
 
+'''
+Esta clase contiene metodos que ayudan a traducir los mensajes que llegan del socket
+'''
 class classify_action():
 
     '''
@@ -13,10 +16,10 @@ class classify_action():
 
         if msg[0:5] == "START":
 
-            gui.team_1_structure = int(msg[5:8])
-            gui.team_2_structure = int(msg[9:12])
-            print(gui.team_1_structure)
-            print(gui.team_2_structure)
+            game.team_1_structure = int(msg[5:8])
+            game.team_2_structure = int(msg[9:12])
+            print(game.team_1_structure)
+            print(game.team_2_structure)
 
         else:
             # EL MENSAJE RECIBIDO CORRESPONDE A UNA GENERACION.
@@ -50,12 +53,15 @@ class classify_action():
                 char = False
             return result
 
+    '''
+    Este metodo procesa las instrucciones de generaciones entrantes, luego de que estas fueron traducidas.
+    '''
     def recv_sms(self, sms):
 
         print("procesando")
 
 
 
-p = classify_action()
-translated = p.translate_sms("START (4 4 2) (4 3 3)")
-print(translated)
+#p = classify_action()
+#translated = p.translate_sms("START (4 4 2) (4 3 3)")
+#print(translated)
