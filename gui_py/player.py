@@ -1,7 +1,7 @@
 import time
 
 '''
-Esta clase definira el comportamiento del jugador en la interfaz
+Esta clase define el comportamiento del jugador en la interfaz
 '''
 class Player ():
 
