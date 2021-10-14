@@ -9,7 +9,7 @@ fuerza: fureza con la que le da a la bola
 3rd:
 |#
 (define (create-player id-player id-team)
-  (list id-player id-team 0 0 0))
+  (list id-player id-team 4 3 2))
 
 (define (create-team total-players id-team)
 
@@ -34,6 +34,7 @@ fuerza: fureza con la que le da a la bola
 
 (get-team 2 (game (create-team 1 1) (create-team 1 2)))
 
+; Busca el jugador especificado con su id
 (define (get-player team player-id)
   (cond ((= (caar team) player-id)
          (car team))
@@ -42,3 +43,28 @@ fuerza: fureza con la que le da a la bola
 
 (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6)
 
+; Obtienen las características de un jugador especificado
+(define (get-id-player player)
+  (car player))
+
+(define (get-id-team player)
+  (cadr player))
+
+(define (get-position player)
+  (caddr player))
+
+(define (get-movement player)
+  (cadddr player))
+
+(define (get-speed player)
+  (cadr(cdddr player)))
+
+(get-id-player (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
+
+(get-id-team (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
+
+(get-position (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
+
+(get-movement (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
+
+(get-speed (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
