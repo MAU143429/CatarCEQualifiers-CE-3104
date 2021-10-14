@@ -24,16 +24,21 @@ fuerza: fureza con la que le da a la bola
 (game (create-team 1 1) (create-team 1 2))
 
 ; Busca el equipo especificado
-(define (check-team id-team game)
+(define (get-team id-team game)
   (cond ((= id-team 1)
          (car game))
         ((= id-team 2)
-         (cadr game))
+         (caddr game))
         (else
          (print "Número de equipo no identificado"))))
 
-; Busca el jugador especificado
-#|
-(define (check-player id-team id-player)
-  )
-|#
+(get-team 2 (game (create-team 1 1) (create-team 1 2)))
+
+(define (get-player team player-id)
+  (cond ((= (caar team) player-id)
+         (car team))
+        (else
+         (get-player (cdr team) player-id))))
+
+(get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6)
+
