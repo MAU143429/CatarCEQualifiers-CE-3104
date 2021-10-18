@@ -1,6 +1,6 @@
 import socket
 import classify_action
-
+import display_players
 
 '''
 Esta clase crea el socket
@@ -40,8 +40,10 @@ class Socket():
                     msg_rcv = data.decode('ascii')
                     action = classify_action.classify_action()
                     translated = action.translate_sms(msg_rcv)
+                    print("SOY EL TRANSLATED ---> " + str(translated))
+                    if translated != "INIT":
+                        classify_action.classify_action().recv_sms(translated)
                     print(translated)
-
 
                     if data:
                         print('sending data back to the client')
