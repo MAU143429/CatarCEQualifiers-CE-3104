@@ -1,15 +1,15 @@
 import box
 
+table = []
 '''
 Esta clase se encarga de crear la matriz que permitira tener el control de los jugadores y sus movimientos
 '''
 class board():
-
+    global table
     '''
     Constructor de la clase, define algunos valores como las filas y columnas de la matriz
     '''
     def __init__(self):
-        self.board = []
         self.boxes = 1
         self.ROWS = 12   # Cantidad de filas
         self.COLUMN = 24 # Cantidad de columnas
@@ -30,17 +30,24 @@ class board():
                 COORDX += self.DIMENSION
                 self.boxes += 1
                 self.COLUMN -= 1
-            self.board.append(current_row)
+                print("SOY LA DIMENSION x " + str(COORDX))
+            COORDX = 0
+            table.append(current_row)
             current_row = []
             COORDY += self.DIMENSION
             self.COLUMN = 24
             self.ROWS -= 1
         self.ROWS = 12
 
+    def getPosx(self,box):
+        row = box // 24
+        column = (box % 24)-1
+        return table[row][column].get_posX()
 
-
-
-
+    def getPosy(self,box):
+        row = box // 24
+        column = (box % 24)-1
+        return table[row][column].get_posY()
 
     '''
     ELIMINAR ESTOS METODOSSSSS AL FINAL DEL PROYECTO.
@@ -52,7 +59,7 @@ class board():
         while (rows < 12):
             print(" [ ")
             while(cols < 24):
-                print(str(self.board[rows][cols].get_num_box()) + ",")
+                print(str(board[rows][cols].get_num_box()) + ",")
                 cols += 1
             print( " ] , " )
             cols = 0
@@ -66,7 +73,7 @@ class board():
         while (rows < 12):
             print(" [ ")
             while(cols < 24):
-                print(str(self.board[rows][cols].get_posX()) + ",")
+                print(str(board[rows][cols].get_posX()) + ",")
                 cols += 1
             print( " ] , " )
             cols = 0
@@ -80,7 +87,7 @@ class board():
         while (rows < 12):
             print(" [ ")
             while(cols < 24):
-                print(str(self.board[rows][cols].get_posY()) + ",")
+                print(str(board[rows][cols].get_posY()) + ",")
                 cols += 1
             print( " ] , " )
             cols = 0
