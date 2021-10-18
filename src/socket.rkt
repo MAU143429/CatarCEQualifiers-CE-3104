@@ -8,6 +8,6 @@
   (displayln (read-line in)))
 
 
-(msg '("START" (6 4 0) (4 3 3)))
+(msg '("START" ("/" 0 "/" 0 "/" 10) ("/" 0 "/" 5 "/" 5)))
 (close-input-port in)
 (close-output-port out)

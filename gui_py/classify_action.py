@@ -1,4 +1,4 @@
-import game
+import display_players
 
 '''
 Esta clase contiene metodos que ayudan a traducir los mensajes que llegan del socket
@@ -9,26 +9,47 @@ class classify_action():
     Este metodo permite traducir la linea que recibe a traves del socket
     '''
     def translate_sms(self, sms):
+        result = []
         msg = sms.replace(" ", "")
         msg = msg.replace("(" ,"")
         msg = msg.replace(")", ",")
+        sms_len = 0
+        buffer = ""
         # EL MENSAJE RECIBIDO CORRESPONDE A LAS PARAMETROS DE INICIO DE JUEGO.
-
+        print(msg)
         if msg[0:5] == "START":
+            line = msg[5:-1]
+            while sms_len < len(line):
+                if line[sms_len] != "/" and line[sms_len] != ",":
+                    if line[sms_len + 1] != "/" and line[sms_len + 1] != ",":
+                        buffer += line[sms_len]
+                        buffer += line[sms_len + 1]
+                        if len(display_players.team_1_structure) == 3:
+                            display_players.team_2_structure.append(int(buffer))
+                            buffer = ""
+                            sms_len += 1
+                        else:
+                            display_players.team_1_structure.append(int(buffer))
+                            buffer = ""
+                            sms_len += 1
+                    else:
+                        buffer += line[sms_len]
+                        if len(display_players.team_1_structure) == 3:
+                            display_players.team_2_structure.append(int(buffer))
+                            buffer = ""
 
-            game.team_1_structure = int(msg[5:8])
-            game.team_2_structure = int(msg[9:12])
-            print(game.team_1_structure)
-            print(game.team_2_structure)
+                        else:
+                            display_players.team_1_structure.append(int(buffer))
+                            buffer = ""
+                sms_len += 1
+
+            print(display_players.team_1_structure)
+            print(display_players.team_2_structure)
+            return "INIT"
 
         else:
             # EL MENSAJE RECIBIDO CORRESPONDE A UNA GENERACION.
-
             msg = msg.replace("\n", ",")
-            sms_len = 0
-            print(msg)
-            result = []
-            buffer = ""
             char = False
             while(sms_len < len(msg)):
                 if msg[sms_len] == ',':
@@ -62,6 +83,3 @@ class classify_action():
 
 
 
-#p = classify_action()
-#translated = p.translate_sms("START (4 4 2) (4 3 3)")
-#print(translated)
