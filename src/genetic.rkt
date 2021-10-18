@@ -11,17 +11,6 @@ fuerza: fureza con la que le da a la bola
 (define (create-player id-player id-team)
   (list id-player id-team 4 3 2))
 
-(define (create-team total-players id-team)
-
-  (cond ((< total-players 12)  
-         
-         (cons (create-player total-players id-team) (create-team (+ total-players 1) id-team)))))
-
-; Lista que contiene a los equipos que se van a enfrentar
-(define (game team1 team2)
-  (list team1 "/" team2))
-
-(game (create-team 1 1) (create-team 1 2))
 
 ; Busca el equipo especificado
 (define (get-team id-team game)
@@ -32,7 +21,7 @@ fuerza: fureza con la que le da a la bola
         (else
          (print "Número de equipo no identificado"))))
 
-(get-team 2 (game (create-team 1 1) (create-team 1 2)))
+
 
 ; Busca el jugador especificado con su id
 (define (get-player team player-id)
@@ -41,7 +30,7 @@ fuerza: fureza con la que le da a la bola
         (else
          (get-player (cdr team) player-id))))
 
-(get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6)
+
 
 ; Obtienen las características de un jugador especificado
 (define (get-id-player player)
@@ -56,9 +45,33 @@ fuerza: fureza con la que le da a la bola
 (define (get-movement player)
   (cadddr player))
 
-(define (get-speed player)
+(define (get-force player)
   (cadr(cdddr player)))
 
+
+(print "Genetico")
+
+; Genetic Algorithm definition
+
+
+; Fitness 
+(define (fitness player)
+  (list (get-id-player player) (get-id-team player) (get-position player) (get-movement player) (get-force player) (/ (+ (* (get-movement player)(/ 75 100)) (* (get-force player)(/ 25 100))) 2)))
+
+(define (create-team total-players id-team)
+
+  (cond ((< total-players 12)  
+         
+         (cons (fitness (create-player total-players id-team)) (create-team (+ total-players 1) id-team)))))
+
+; Lista que contiene a los equipos que se van a enfrentar
+(define (game team1 team2)
+  (list team1 "/" team2))
+
+(game (create-team 1 1) (create-team 1 2))
+
+(get-team 2 (game (create-team 1 1) (create-team 1 2)))
+(get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6)
 (get-id-player (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
 
 (get-id-team (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
@@ -67,10 +80,4 @@ fuerza: fureza con la que le da a la bola
 
 (get-movement (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
 
-(get-speed (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
-(print "Genetico")
-
-; Genetic Algorithm definition
-
-(define (genetic generations)
-  (make-bit-vector (string->bit-vector())))
+(get-force (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
