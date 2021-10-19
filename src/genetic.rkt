@@ -19,16 +19,12 @@ fuerza: fuerza con la que le da a la bola
         (else
          (print "Número de equipo no identificado"))))
 
-
-
 ; Busca el jugador especificado con su id
 (define (get-player team player-id)
   (cond ((= (cadar team) player-id)
          (car team))
         (else
          (get-player (cdr team) player-id))))
-
-
 
 ; Obtienen las características de un jugador especificado
 (define (get-id-player player)
@@ -80,6 +76,9 @@ fuerza: fuerza con la que le da a la bola
   (cond ((> total-players 0)
          (cons (fitness (create-player total-players id-team)) (create-population (- total-players 1) id-team)))))
 (create-population 10 1)
+
+; Aplica seleccion y cruce en el algoritmo genetico
+
 #|
 (game (create-team 1 1) (create-team 1 2))
 
