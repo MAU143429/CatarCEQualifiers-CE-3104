@@ -1,8 +1,8 @@
 #lang racket
 (require "genetic.rkt")
 
-(define-values (in out) (tcp-connect  "127.0.0.1" 9876))
-(define (msg line)
+
+(define (msg line out in)
   (displayln line out)
   (flush-output out)
   (display "Response: ")
@@ -15,10 +15,17 @@
         (num-games (- gen 1))))
 
 (define (CCEQ equipo-1 equipo-2 generaciones)
+  (define-values (in out) (tcp-connect  "127.0.0.1" 9876))
   (msg '("START" ("/" (car equipo-1) "/" (cadr equipo-1) "/" (caddr equipo-1))
-                 ("/" (car equipo-2) "/" (cadr equipo-2) "/" (caddr equipo-2))))
-  (num-games generaciones))
+                 ("/" (car equipo-2) "/" (cadr equipo-2) "/" (caddr equipo-2))) out in)
+  
+  (num-games generaciones)
+  (close-input-port in)
+  (close-output-port out)
+  )
 
+   
+;(CCEQ '(4 4 2) '(4 3 3) 20)
 #|
 (msg '("START" ("/" 4 "/" 4 "/" 2) ("/" 4 "/" 3 "/" 3)))
 
@@ -48,5 +55,3 @@
        (2 10 6 5)
        (2 11 7 3)))
 |#
-(close-input-port in)
-(close-output-port out)
