@@ -107,7 +107,9 @@ fuerza: fuerza con la que le da a la bola
              (random 1)))
 
 
-(game (create-team 1 1 20) (create-team 1 2 20))
+; (game (create-team 1 1 20) (create-team 1 2 20))
+
+(provide (all-defined-out))
 
 
 
