@@ -15,8 +15,8 @@
         (num-games (- gen 1))))
 
 (define (message equipo-1 equipo-2)
-  ("START" ("/" (car equipo-1) "/" (cadr equipo-1) "/" (caddr equipo-1))
-                 ("/" (car equipo-2) "/" (cadr equipo-2) "/" (caddr equipo-2))))
+  (list "START" (list "/" (car equipo-1) "/" (cadr equipo-1) "/" (caddr equipo-1))
+                 (list "/" (car equipo-2) "/" (cadr equipo-2) "/" (caddr equipo-2))))
 
 (define (CCEQ equipo-1 equipo-2 generaciones)
   (define-values (in out) (tcp-connect  "127.0.0.1" 9876))
