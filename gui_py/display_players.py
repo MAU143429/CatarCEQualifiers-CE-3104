@@ -1,10 +1,14 @@
 import time
 
+import board
 import players
 import game
+import pygame
 
 team_1_structure = []
 team_2_structure = []
+
+
 
 '''
 Esta clase contiene metodos que permiten mover tanto a los jugadores, asi como spawnearlos
@@ -13,6 +17,7 @@ class display_players():
 
     global team_1_structure
     global team_2_structure
+
 
     '''
     Algoritmo que lee las formaciones y coloca a los jugadores segun corresponda, a su vez asigna valores
@@ -114,7 +119,7 @@ class display_players():
     '''
     Este metodo se encarga de consultar posiciones para refrescar las imagenes en la ventana
     '''
-    def update(self, window1):
+    def update(self, window1,move):
 
         for player in players.team_1:
             # Revisa si a ocurrido algun gol.
@@ -126,11 +131,20 @@ class display_players():
                 route = self.hit_distance(player,1)
                 for box in route:
                     players.ball.setBox(box)
-                    window1.blit(players.ball_img, (players.ball.getPosX() ,players.ball.getPosY()))
-                    time.sleep(0.250)
 
-             # Actualiza el frame de cada jugador
-            window1.blit(player.image,(player.getPosX(),player.getPosY()))
+            if move:
+                print("ME VOY A MOVER")
+                road = player.getMovements()
+                for box in road:
+                    table = board.board()
+                    player.setBox(box)
+                    '''if table.getUse(box) == True:
+                            pass
+                        else:
+                            player.setBox(box)
+                
+                    '''
+
 
             #print( "TEAM 1 " +str(player.position) + " " + str(player.box) + " en la casilla con posiciones --> x : " + str(player.getPosX()) + " y: " + str(player.getPosY()))
 
@@ -144,15 +158,19 @@ class display_players():
                 route = self.hit_distance(player2,2)
                 for box in route:
                     players.ball.setBox(box)
-                    window1.blit(players.ball_img, (players.ball.getPosX() ,players.ball.getPosY()))
-                    time.sleep(0.250)
-            # Actualiza el frame de cada jugador
-            window1.blit(player2.image,(player2.getPosX(),player2.getPosY()))
+            if move:
+                print("ME VOY A MOVER 2 ")
+                move = False
+                road = player2.getMovements()
+                for box in road:
+                   player2.setBox(box)
+
+
 
             #print("TEAM 2 " + str(player2.position) + " " + str(player2.box)+ " en la casilla con posiciones --> x : " + str(player2.getPosX()) + " y: " + str(player2.getPosY()))
 
 
-        window1.blit(players.ball_img, (players.ball.getPosX() ,players.ball.getPosY()))
+
 
     '''
     Este metodo verifica si la bola esta en posicion de gol
@@ -173,7 +191,7 @@ class display_players():
         steps = 0
         if team == 1:
             path = self.create_move(player.getBox(),144)
-            while len(hit_route) < player.getForce():
+            while len(hit_route) < int(player.getForce()):
                 hit_route.append(path[steps])
                 steps += 1
         else:
@@ -188,14 +206,27 @@ class display_players():
     def init_movements(self):
 
         for player in players.team_1:
+            print("ANTES DEL CREATE MOVE")
             new_list = self.create_move(player.getBox(),players.ball.getBox())
+            print("DESPUES DEL CREATE MOVE")
+            print("ANTES DEL VERIFY PATH")
             final_list = self.verify_path(new_list,player.getPos(),player.getDistance(),1)
+            print("DESPUES DEL VERIFY PATH")
+            print("ANTES DE SET MOVES")
             player.setMovements(final_list)
+            print("TERMINE")
 
         for player2 in players.team_2:
+            print("ANTES DEL CREATE MOVE  2")
             new_list = self.create_move(player2.getBox(),players.ball.getBox())
+            print("DESPUES DEL CREATE MOVE  2")
+            print("ANTES DEL VERIFY PATH  2")
             final_list = self.verify_path(new_list,player2.getPos(),player2.getDistance(),2)
+            print("DESPUES DEL VERIFY PATH 2")
+            print("ANTES DE SET MOVES  2")
             player2.setMovements(final_list)
+            print(player2.getMovements())
+            print("TERMINE  2")
 
     '''
     Este metodo recibe una lista , una posicion de juego, una cantidad de movimiento maximos y el equipo de este jugaror
@@ -206,66 +237,100 @@ class display_players():
         cont = 0
         stop = False
 
+        print("SOY EL path --> " + str(path))
+        print("SOY EL player_pos --> " + str(player_pos))
+        print("SOY EL max_movs --> " + str(max_movs))
+        print("SOY EL team --> " + str(team))
+        print("SOY EL CONTADOR --> " + str(cont))
+
         if player_pos == 3 and team == 1:
-            while not stop or (cont < len(path)):
-                if len(new_path) < int(max_movs):
-                    c_row = self.getRow(path[cont])
-                    c_col = self.getCol(path[cont])
-                    if c_col <= 1:
-                        if c_row >= 4 or c_row <= 6:
-                            new_path.append(path[cont])
-                    else: stop = True
-                cont += 1
+            while not stop:
+                if cont < len(path):
+                    if len(new_path) < int(max_movs):
+                        c_row = self.getRow(path[cont])
+                        c_col = self.getCol(path[cont])
+                        if c_col <= 1:
+                            if c_row >= 4 or c_row <= 6:
+                                new_path.append(path[cont])
+                        else: stop = True
+                    else:
+                        stop = True
+                    cont += 1
+                else:
+                    stop = True
             stop = False
             return new_path
 
         if player_pos == 3 and team == 2:
-            while not stop or (cont < len(path)):
-                if len(new_path) < max_movs:
-                    c_row = self.getRow(path[cont])
-                    c_col = self.getCol(path[cont])
-                    if c_col >= 23:
-                        if c_row >= 4 or c_row <= 6:
-                            new_path.append(path[cont])
-                    else: stop = True
-                cont += 1
+            while not stop :
+                if cont < len(path):
+                    if len(new_path) < int(max_movs):
+                        c_row = self.getRow(path[cont])
+                        c_col = self.getCol(path[cont])
+                        if c_col >= 23:
+                            if c_row >= 4 or c_row <= 6:
+                                new_path.append(path[cont])
+                        else: stop = True
+                    else:
+                        stop = True
+                    cont += 1
+                else:
+                    stop = True
             stop = False
             return new_path
 
         #ES UN DEFENSA
         if player_pos == 0:
-            while not stop or (cont < len(path)):
-                if len(new_path) < int(max_movs):
-                    c_col = self.getCol(path[cont])
-                    if c_col <= 8:
-                        new_path.append(path[cont])
-                    else: stop = True
-                cont += 1
+            while not stop:
+                if cont < len(path):
+                    if len(new_path) < int(max_movs):
+                        c_col = self.getCol(path[cont])
+                        if c_col <= 8:
+                            new_path.append(path[cont])
+                        else: stop = True
+                    else:
+                        stop = True
+                    cont += 1
+                else:
+                    stop = True
             stop = False
             return new_path
 
         # ES UN MEDIO
+        print("SOY EL CONTADOR --> " + str(cont))
+        print("SOY LEN PATH --> " + str(len(path)))
         if player_pos == 1:
-            while not stop or (cont < len(path)):
-                if len(new_path) < int(max_movs):
-                    c_col = self.getCol(path[cont])
-                    if c_col >= 8:
-                        new_path.append(path[cont])
-                    else: stop = True
-                cont += 1
+            while not stop:
+                if cont < len(path):
+                    if len(new_path) < int(max_movs):
+                        c_col = self.getCol(path[cont])
+                        if c_col >= 8:
+                            new_path.append(path[cont])
+                        else: stop = True
+                    else:
+                        stop = True
+                    cont += 1
+                else:
+                    stop = True
+
             stop = False
             return new_path
 
         # ES UN DELANTERO
 
         if player_pos == 2:
-            while not stop or (cont < len(path)):
-                if len(new_path) < int(max_movs):
-                    c_col = self.getCol(path[cont])
-                    if c_col >= 16:
-                        new_path.append(path[cont])
-                    else: stop = True
-                cont += 1
+            while not stop:
+                if cont < len(path):
+                    if len(new_path) < int(max_movs):
+                        c_col = self.getCol(path[cont])
+                        if c_col >= 16:
+                            new_path.append(path[cont])
+                        else: stop = True
+                    else:
+                        stop = True
+                    cont += 1
+                else:
+                    stop = True
             stop = False
             return new_path
 

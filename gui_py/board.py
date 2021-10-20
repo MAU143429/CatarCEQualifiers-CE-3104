@@ -61,6 +61,8 @@ class board():
 
 
 
+
+
     '''
     ELIMINAR ESTOS METODOSSSSS AL FINAL DEL PROYECTO.
     '''

@@ -118,6 +118,7 @@ class classify_action():
 
             start = display_players.display_players()
             start.init_movements()
+            print("INICIARE LOS MOVIMIENTOS")
             game.move = True
 
 
