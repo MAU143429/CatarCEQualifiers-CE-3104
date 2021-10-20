@@ -9,6 +9,13 @@ fuerza: fuerza con la que le da a la bola
 (define (create-player id-player id-team)
   (list id-team id-player (list-ref (list 0 1 2 3 4 5 6 7 8 9 10) (random 10)) (list-ref (list 0 1 2 3 4 5 6 7 8 9 10) (random 10))))
 
+; Crea la lista con los jugadores
+(define (create-team total-players id-team)
+
+  (cond ((< total-players 12)  
+         
+         (cons (create-player total-players id-team) (create-team (+ total-players 1) id-team)))))
+
 ; Busca el equipo especificado
 (define (get-team id-team game)
   (cond ((= id-team 1)
@@ -46,12 +53,6 @@ fuerza: fuerza con la que le da a la bola
 (define (fitness player)
   (list (get-id-team player) (get-id-player player)(get-movement player) (get-force player) (exact-round(/ (+ (* (get-movement player)(/ 75 100)) (* (get-force player)(/ 25 100))) 2))))
 
-; Crea la lista con los jugadores
-(define (create-team total-players id-team)
-
-  (cond ((< total-players 12)  
-         
-         (cons (create-player total-players id-team) (create-team (+ total-players 1) id-team)))))
 
 ; Lista que contiene a los equipos que se van a enfrentar
 (define (game team1 team2)
@@ -75,24 +76,34 @@ fuerza: fuerza con la que le da a la bola
          (cond ((> (get-fitness(car population)) 3)
                  (cons (car population) (selection (cdr population)(- total-players 1))))
                (else
+
                 (selection (cdr population)(- total-players 1)))))))
 
+; Crea el hijo
+(define (create-child id-player id-team movement force)
+  (list id-team id-player movement force))
+
+
 ; Cruce: realiza el cruce de las caracteristica entre dos jugadores
-(define (cruce selected-players)
+(define (cruce selected-players id-team id-player)
   
-  (append (list selected-players) (list (get-id-team (car selected-players)) (get-id-player (car selected-players))(exact-round(/ (+ (get-movement(car selected-players))(get-movement(cadr selected-players))) 2)) (exact-round(/ (+ (get-force (car selected-players))(get-force (cadr selected-players))) 2)))))
+  (cons (create-child id-team id-player
+                       (exact-round(/ (+ (get-movement(car selected-players))(get-movement(cadr selected-players))) 2))
+                       (exact-round(/ (+ (get-force (car selected-players))(get-force (cadr selected-players))) 2)))
+        selected-players)
+)
 
 ; Crea la poblacion sobre la cual va a actuar el genetico
-(define (create-population total-players id-team)
+(define (create-population total-players id-team id-player)
   (cond ((> total-players 0)
-         (cons (fitness (create-player total-players id-team)) (create-population (- total-players 1) id-team)))))
+         (cons (fitness (create-player id-player id-team)) (create-population (- total-players 1) id-player id-team)))))
 
 ; Aplica seleccion y cruce en el algoritmo genetico
-(define (genetic total-generations)
-  (cruce(selection (create-population total-generations 1) total-generations) ))
+(define (genetic total-generations id-team id-player)
+  (cruce(selection (create-population total-generations id-team id-player) total-generations) id-team id-player))
 
 ;(append '(1 10 7 7 4) (list 8 8))
-(genetic 20)
+(genetic 20 1 1)
 
 #|(create-population 10 1)
 (game (create-team 1 1) (create-team 1 2))
