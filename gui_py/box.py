@@ -27,3 +27,9 @@ class box():
     def get_posY(self):
         return self.y
 
+    def getUse(self):
+        return self.inUse
+
+    def use_Status(self, status):
+        self.inUse = status
+

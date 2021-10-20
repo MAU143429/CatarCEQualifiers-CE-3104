@@ -30,7 +30,6 @@ class board():
                 COORDX += self.DIMENSION
                 self.boxes += 1
                 self.COLUMN -= 1
-                print("SOY LA DIMENSION x " + str(COORDX))
             COORDX = 0
             table.append(current_row)
             current_row = []
@@ -48,6 +47,19 @@ class board():
         row = box // 24
         column = (box % 24)-1
         return table[row][column].get_posY()
+
+    def setUse(self,box,status):
+        row = box // 24
+        column = (box % 24)-1
+        table[row][column].use_Status(status)
+
+    def getUse(self,box):
+        row = box // 24
+        column = (box % 24)-1
+        return table[row][column].getUse()
+
+
+
 
     '''
     ELIMINAR ESTOS METODOSSSSS AL FINAL DEL PROYECTO.

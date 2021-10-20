@@ -1,4 +1,6 @@
 import display_players
+import players as teams
+import game
 
 '''
 Esta clase contiene metodos que ayudan a traducir los mensajes que llegan del socket
@@ -48,6 +50,7 @@ class classify_action():
             return "INIT"
 
         else:
+            print(msg)
             # EL MENSAJE RECIBIDO CORRESPONDE A UNA GENERACION.
             msg = msg.replace("\n", ",")
             char = False
@@ -59,12 +62,13 @@ class classify_action():
                     char = True
                     pass
                 if msg[sms_len] == '/' and not char:
-                    result.append("TEAM 2")
+                    result.append("T2")
                     sms_len += 1
                     char = True
                 if not char:
                     if type(int(msg[sms_len])) == int and msg[sms_len+1] == ',':
-                        result.append(int(buffer))
+                        buffer += msg[sms_len]
+                        result.append(buffer)
                         buffer = ""
                         sms_len += 2
 
@@ -77,9 +81,50 @@ class classify_action():
     '''
     Este metodo procesa las instrucciones de generaciones entrantes, luego de que estas fueron traducidas.
     '''
-    def recv_sms(self, sms):
+    def recv_sms(self, gen):
+        cont = 0
+        current = 0
+        team_pos = 0
+        distance_pos = 2
+        force_pos = 3
+        if len(gen) != 0:
+            print("Aplicando nueva generacion de individuos")
+            while cont < len(gen):
+                if gen[cont] == "T2":
+                    current = 0
 
-        print("procesando")
+                if gen[cont][team_pos] == "1":
+                    if len(gen[cont]) == 4:
+                        teams.team_1[current].setDistance(gen[current][distance_pos])
+                        teams.team_1[current].setForce(gen[current][force_pos])
+                    else:
+                        teams.team_1[current].setDistance(gen[current][distance_pos + 1])
+                        teams.team_1[current].setForce(gen[current][force_pos + 1])
+
+                    current += 1
+
+                if gen[cont][team_pos] == "2":
+                    if len(gen[cont]) == 4:
+                        teams.team_2[current].setDistance(gen[cont][distance_pos])
+                        teams.team_2[current].setForce(gen[cont][force_pos])
+
+                    else:
+                        teams.team_2[current].setDistance(gen[cont][distance_pos + 1])
+                        teams.team_2[current].setForce(gen[cont][force_pos + 1])
+                    current += 1
+                cont += 1
+
+            # Se ejecuta el algoritmo de movimiento
+
+            start = display_players.display_players()
+            start.init_movements()
+            game.move = True
+
+
+
+
+
+
 
 
 

@@ -12,14 +12,18 @@ class Player ():
         self.position = position
         self.x = 0
         self.y = 0
+        self.movement = []
 
     def getBox(self):
         return self.box
 
     def setBox(self, new_box):
+        table = board.board()
+        table.setUse(new_box,True)
+        table.setUse(self.box,False)
         self.box = new_box
-        self.x = board.board().getPosx(new_box)
-        self.y = board.board().getPosy(new_box)
+        self.x = table.getPosx(new_box)
+        self.y = table.getPosy(new_box)
 
     def getDistance(self):
         return self.distance
@@ -45,14 +49,19 @@ class Player ():
     def getPosY(self):
         return self.y
 
+    def getMovements(self):
+        return self.movement
+
+    def setMovements(self, new_mov):
+        self.movement = new_mov
+
 
 
 class Ball ():
 
-    def __init__(self,image,box,goal):
+    def __init__(self,image,box):
         self.image = image
         self.box = box
-        self.goal = goal
         self.x = 0
         self.y = 0
 
@@ -60,15 +69,12 @@ class Ball ():
         return self.box
 
     def setBox(self, new_box):
+        table = board.board()
+        table.setUse(new_box,True)
+        table.setUse(self.box,False)
         self.box = new_box
-        self.x = board.board().getPosx(new_box)
-        self.y = board.board().getPosy(new_box)
-
-    def getGoal(self):
-        return self.goal
-
-    def setGoal(self, new_status):
-        self.goal = new_status
+        self.x = table.getPosx(new_box)
+        self.y = table.getPosy(new_box)
 
     def getPosX(self):
         return self.x

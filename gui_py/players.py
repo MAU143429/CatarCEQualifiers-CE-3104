@@ -75,7 +75,7 @@ p9_t2 = objects.Player(player9_t2, 0, 0, 0, 0)
 p10_t2 = objects.Player(player10_t2, 0, 0, 0, 0)
 p11_t2 = objects.Player(player11_t2, 0, 0, 0, 0)
 
-ball = objects.Ball(ball_img,13,False)
+ball = objects.Ball(ball_img,13)
 
 
 '''
