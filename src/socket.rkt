@@ -14,15 +14,20 @@
   (cond (> gen 0)
         (num-games (- gen 1))))
 
+(define (message equipo-1 equipo-2)
+  ("START" ("/" (car equipo-1) "/" (cadr equipo-1) "/" (caddr equipo-1))
+                 ("/" (car equipo-2) "/" (cadr equipo-2) "/" (caddr equipo-2))))
+
 (define (CCEQ equipo-1 equipo-2 generaciones)
   (define-values (in out) (tcp-connect  "127.0.0.1" 9876))
-  (msg '("START" ("/" (car equipo-1) "/" (cadr equipo-1) "/" (caddr equipo-1))
-                 ("/" (car equipo-2) "/" (cadr equipo-2) "/" (caddr equipo-2))) out in)
+  (msg (message equipo-1 equipo-2) out in)
   
   (num-games generaciones)
   (close-input-port in)
   (close-output-port out)
   )
+
+(CCEQ '(4 4 2) '(4 3 3) 20)
 
    
 ;(CCEQ '(4 4 2) '(4 3 3) 20)
