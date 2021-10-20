@@ -78,8 +78,9 @@ fuerza: fuerza con la que le da a la bola
                 (selection (cdr population)(- total-players 1)))))))
 
 ; Cruce: realiza el cruce de las caracteristica entre dos jugadores
-(define (cruce player)
-  (list (get-id-team player)(get-id-player player)(/ (+ (get-movement player)(get-movement player)) 2) (/ (+ (get-force player)(get-force player)) 2)))
+(define (cruce selected-players)
+  
+  (append (list selected-players) (list (get-id-team (car selected-players)) (get-id-player (car selected-players))(exact-round(/ (+ (get-movement(car selected-players))(get-movement(cadr selected-players))) 2)) (exact-round(/ (+ (get-force (car selected-players))(get-force (cadr selected-players))) 2)))))
 
 ; Crea la poblacion sobre la cual va a actuar el genetico
 (define (create-population total-players id-team)
@@ -88,18 +89,16 @@ fuerza: fuerza con la que le da a la bola
 
 ; Aplica seleccion y cruce en el algoritmo genetico
 (define (genetic total-generations)
-  (selection (create-population total-generations 1) total-generations))
+  (cruce(selection (create-population total-generations 1) total-generations) ))
 
+;(append '(1 10 7 7 4) (list 8 8))
+(genetic 20)
 
-
-(genetic 100)
-
-;(create-population 10 1)
-;(game (create-team 1 1) (create-team 1 2))
-
+#|(create-population 10 1)
+(game (create-team 1 1) (create-team 1 2))
 (get-team 2 (game (create-team 1 1) (create-team 1 2)))
 (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6)
 (get-id-team (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
 (get-id-player (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
 (get-movement (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
-(get-force (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))
+(get-force (get-player (get-team 1 (game (create-team 1 1) (create-team 1 2))) 6))|#
