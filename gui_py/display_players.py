@@ -191,12 +191,12 @@ class display_players():
         steps = 0
         if team == 1:
             path = self.create_move(player.getBox(),144)
-            while len(hit_route) < int(player.getForce()):
+            while len(hit_route) < int(player.getForce()) or steps < len(path):
                 hit_route.append(path[steps])
                 steps += 1
         else:
             path = self.create_move(player.getBox(),121)
-            while len(hit_route) < player.getForce():
+            while len(hit_route) < player.getForce() or steps < len(path):
                 hit_route.append(path[steps])
                 steps += 1
         return hit_route
