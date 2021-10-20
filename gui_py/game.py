@@ -57,6 +57,7 @@ class game():
         pygame.font.init()
         black = (0, 0, 0)
         myFont = pygame.font.SysFont('Comic Sans MS', 30)
+        clock = pygame.time.Clock()
 
         team1_score = myFont.render(str(score1), False, black)
         team2_score = myFont.render(str(score2), False, black)
@@ -85,31 +86,21 @@ class game():
                 if event.type == pygame.QUIT:
                     running = False
 
+            clock.tick(60)
+
             window1.blit(players.main_bg, (0, 0))
 
             update = display_players.display_players()
-            update.update(window1)
+            update.update(window1,move)
 
-            if move:
-                move = False
-                for player in players.team_1:
-                    road = player.getMovements()
-                    for box in road:
-                        player.setBox(box)
-                        update.update(window1)
-                        time.sleep(0.250)
-
-                for player2 in players.team_2:
-                    road = player2.getMovements()
-                    for box in road:
-                        player2.setBox(box)
-                        update.update(window1)
-                        time.sleep(0.250)
+            for player in players.team_1:
+                window1.blit(player.image,(player.getPosX(),player.getPosY()))
+            for player2 in players.team_2:
+                window1.blit(player2.image,(player2.getPosX(),player2.getPosY()))
+            window1.blit(players.ball_img, (players.ball.getPosX() ,players.ball.getPosY()))
 
 
             window1.blit(team1_score,(550,0))
             window1.blit(team2_score,(650,0))
-
+            pygame.display.update()
             pygame.display.flip()
-
-
