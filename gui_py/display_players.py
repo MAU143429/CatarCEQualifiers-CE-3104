@@ -6,7 +6,9 @@ import game
 team_1_structure = []
 team_2_structure = []
 
-
+'''
+Esta clase contiene metodos que permiten mover tanto a los jugadores, asi como spawnearlos
+'''
 class display_players():
 
     global team_1_structure
@@ -152,12 +154,20 @@ class display_players():
 
         window1.blit(players.ball_img, (players.ball.getPosX() ,players.ball.getPosY()))
 
+    '''
+    Este metodo verifica si la bola esta en posicion de gol
+    @return bool con el resultado de la consulta 
+    '''
     def isGoal(self,box):
 
         if players.ball.getBox() == box:
             return True
         else:return False
 
+    '''
+    Este metodo me permite generar un nuevo camino para la bola 
+    @:return una lista con la distancia a recorrer de la bola
+    '''
     def hit_distance(self,player,team):
         hit_route = []
         steps = 0
@@ -172,7 +182,9 @@ class display_players():
                 hit_route.append(path[steps])
                 steps += 1
         return hit_route
-
+    '''
+    Este metodo recorre los dos equipos concantenando la lista de movimientos
+    '''
     def init_movements(self):
 
         for player in players.team_1:
@@ -185,7 +197,10 @@ class display_players():
             final_list = self.verify_path(new_list,player2.getPos(),player2.getDistance(),2)
             player2.setMovements(final_list)
 
-
+    '''
+    Este metodo recibe una lista , una posicion de juego, una cantidad de movimiento maximos y el equipo de este jugaror
+    @:return lista con las posiciones adecuadas ya analizadas y contiene las casillas a las cuales se movera
+    '''
     def verify_path(self,path,player_pos,max_movs,team):
         new_path = []
         cont = 0
@@ -254,14 +269,18 @@ class display_players():
             stop = False
             return new_path
 
-
+    '''
+    Calcula el valor de fila en base a la casilla actual
+    '''
     def getRow(self,box1):
 
         row = box1 // 24
         if box1 % 24 == 0:
             row -= 1
         return row
-
+    '''
+    Calcula el valor de columna en base a la casilla actual
+    '''
     def getCol(self,box1):
 
         col = 24
@@ -269,7 +288,10 @@ class display_players():
             col = (box1 % 24)-1
         return col
 
-
+    '''
+    Crea una ruta desde una casila A a una B e intercala el movimiento
+    @:return lista con la ruta
+    '''
     def create_move(self,current_box,ball_box):
         result = []
         c_row = self.getRow(current_box)
