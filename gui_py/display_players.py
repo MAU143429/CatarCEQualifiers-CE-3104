@@ -206,27 +206,17 @@ class display_players():
     def init_movements(self):
 
         for player in players.team_1:
-            print("ANTES DEL CREATE MOVE")
             new_list = self.create_move(player.getBox(),players.ball.getBox())
-            print("DESPUES DEL CREATE MOVE")
-            print("ANTES DEL VERIFY PATH")
             final_list = self.verify_path(new_list,player.getPos(),player.getDistance(),1)
-            print("DESPUES DEL VERIFY PATH")
-            print("ANTES DE SET MOVES")
             player.setMovements(final_list)
-            print("TERMINE")
+
 
         for player2 in players.team_2:
-            print("ANTES DEL CREATE MOVE  2")
             new_list = self.create_move(player2.getBox(),players.ball.getBox())
-            print("DESPUES DEL CREATE MOVE  2")
-            print("ANTES DEL VERIFY PATH  2")
             final_list = self.verify_path(new_list,player2.getPos(),player2.getDistance(),2)
-            print("DESPUES DEL VERIFY PATH 2")
-            print("ANTES DE SET MOVES  2")
             player2.setMovements(final_list)
-            print(player2.getMovements())
-            print("TERMINE  2")
+            print("SOY LOS MOVIMIENTOS DEL EQUIPO 2 ---> " +  str(player2.getMovements()))
+
 
     '''
     Este metodo recibe una lista , una posicion de juego, una cantidad de movimiento maximos y el equipo de este jugaror
