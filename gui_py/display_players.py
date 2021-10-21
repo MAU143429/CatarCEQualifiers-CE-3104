@@ -213,7 +213,9 @@ class display_players():
 
         for player2 in players.team_2:
             new_list = self.create_move(player2.getBox(),players.ball.getBox())
+            print("SOY EL NEWLIST---> " +  str(new_list))
             final_list = self.verify_path(new_list,player2.getPos(),player2.getDistance(),2)
+            print("SOY EL F LIST---> " +  str(final_list))
             player2.setMovements(final_list)
             print("SOY LOS MOVIMIENTOS DEL EQUIPO 2 ---> " +  str(player2.getMovements()))
 
@@ -227,102 +229,154 @@ class display_players():
         cont = 0
         stop = False
 
-        print("SOY EL path --> " + str(path))
-        print("SOY EL player_pos --> " + str(player_pos))
-        print("SOY EL max_movs --> " + str(max_movs))
-        print("SOY EL team --> " + str(team))
-        print("SOY EL CONTADOR --> " + str(cont))
-
-        if player_pos == 3 and team == 1:
-            while not stop:
-                if cont < len(path):
-                    if len(new_path) < int(max_movs):
-                        c_row = self.getRow(path[cont])
-                        c_col = self.getCol(path[cont])
-                        if c_col <= 1:
-                            if c_row >= 4 or c_row <= 6:
-                                new_path.append(path[cont])
-                        else: stop = True
+        if team == 1:
+            if player_pos == 3:
+                while not stop:
+                    if cont < len(path):
+                        if len(new_path) < int(max_movs):
+                            c_row = self.getRow(path[cont])
+                            c_col = self.getCol(path[cont])
+                            if c_col <= 1:
+                                if c_row >= 4 or c_row <= 6:
+                                    new_path.append(path[cont])
+                            else: stop = True
+                        else:
+                            stop = True
+                        cont += 1
                     else:
                         stop = True
-                    cont += 1
-                else:
-                    stop = True
-            stop = False
-            return new_path
-
-        if player_pos == 3 and team == 2:
-            while not stop :
-                if cont < len(path):
-                    if len(new_path) < int(max_movs):
-                        c_row = self.getRow(path[cont])
-                        c_col = self.getCol(path[cont])
-                        if c_col >= 23:
-                            if c_row >= 4 or c_row <= 6:
-                                new_path.append(path[cont])
-                        else: stop = True
-                    else:
-                        stop = True
-                    cont += 1
-                else:
-                    stop = True
-            stop = False
-            return new_path
+                stop = False
+                return new_path
 
         #ES UN DEFENSA
-        if player_pos == 0:
-            while not stop:
-                if cont < len(path):
-                    if len(new_path) < int(max_movs):
-                        c_col = self.getCol(path[cont])
-                        if c_col <= 8:
-                            new_path.append(path[cont])
-                        else: stop = True
+            if player_pos == 0:
+                while not stop:
+                    if cont < len(path):
+                        if len(new_path) < int(max_movs):
+                            c_col = self.getCol(path[cont])
+                            if c_col <= 7:
+                                new_path.append(path[cont])
+                            else: stop = True
+                        else:
+                            stop = True
+                        cont += 1
                     else:
                         stop = True
-                    cont += 1
-                else:
-                    stop = True
-            stop = False
-            return new_path
+                stop = False
+                return new_path
 
-        # ES UN MEDIO
-        print("SOY EL CONTADOR --> " + str(cont))
-        print("SOY LEN PATH --> " + str(len(path)))
-        if player_pos == 1:
-            while not stop:
-                if cont < len(path):
-                    if len(new_path) < int(max_movs):
-                        c_col = self.getCol(path[cont])
-                        if c_col >= 8:
-                            new_path.append(path[cont])
-                        else: stop = True
+            # ES UN MEDIO
+            print("SOY EL CONTADOR --> " + str(cont))
+            print("SOY LEN PATH --> " + str(len(path)))
+            if player_pos == 1:
+                while not stop:
+                    if cont < len(path):
+                        if len(new_path) < int(max_movs):
+                            c_col = self.getCol(path[cont])
+                            if c_col >= 7:
+                                new_path.append(path[cont])
+                            else: stop = True
+                        else:
+                            stop = True
+                        cont += 1
                     else:
                         stop = True
-                    cont += 1
-                else:
-                    stop = True
 
-            stop = False
-            return new_path
+                stop = False
+                return new_path
 
-        # ES UN DELANTERO
+            # ES UN DELANTERO
 
-        if player_pos == 2:
-            while not stop:
-                if cont < len(path):
-                    if len(new_path) < int(max_movs):
-                        c_col = self.getCol(path[cont])
-                        if c_col >= 16:
-                            new_path.append(path[cont])
-                        else: stop = True
+            if player_pos == 2:
+                while not stop:
+                    if cont < len(path):
+                        if len(new_path) < int(max_movs):
+                            c_col = self.getCol(path[cont])
+                            if c_col >= 15:
+                                new_path.append(path[cont])
+                            else: stop = True
+                        else:
+                            stop = True
+                        cont += 1
                     else:
                         stop = True
-                    cont += 1
-                else:
-                    stop = True
-            stop = False
-            return new_path
+                stop = False
+                return new_path
+        else:
+            if player_pos == 3:
+                while not stop:
+                    if cont < len(path):
+
+                        if len(new_path) < int(max_movs):
+                            c_row = self.getRow(path[cont])
+                            c_col = self.getCol(path[cont])
+                            if c_col >= 22:
+                                if c_row >= 4 or c_row <= 6:
+                                    new_path.append(path[cont])
+                                    print("ACABO DE CONCATENAR RESULTADO ---> " + str(new_path))
+                            else: stop = True
+                        else:
+                            stop = True
+                        cont += 1
+                    else:
+                        stop = True
+                stop = False
+                return new_path
+
+            #ES UN DEFENSA
+            if player_pos == 0:
+                while not stop:
+                    if cont < len(path):
+                        if len(new_path) < int(max_movs):
+                            c_col = self.getCol(path[cont])
+                            if c_col >= 15:
+                                new_path.append(path[cont])
+                            else: stop = True
+                        else:
+                            stop = True
+                        cont += 1
+                    else:
+                        stop = True
+                stop = False
+                return new_path
+
+            # ES UN MEDIO
+            print("SOY EL CONTADOR --> " + str(cont))
+            print("SOY LEN PATH --> " + str(len(path)))
+            if player_pos == 1:
+                while not stop:
+                    if cont < len(path):
+                        if len(new_path) < int(max_movs):
+                            c_col = self.getCol(path[cont])
+                            if c_col <= 15:
+                                new_path.append(path[cont])
+                            else: stop = True
+                        else:
+                            stop = True
+                        cont += 1
+                    else:
+                        stop = True
+
+                stop = False
+                return new_path
+
+            # ES UN DELANTERO
+
+            if player_pos == 2:
+                while not stop:
+                    if cont < len(path):
+                        if len(new_path) < int(max_movs):
+                            c_col = self.getCol(path[cont])
+                            if c_col <= 7:
+                                new_path.append(path[cont])
+                            else: stop = True
+                        else:
+                            stop = True
+                        cont += 1
+                    else:
+                        stop = True
+                stop = False
+                return new_path
 
     '''
     Calcula el valor de fila en base a la casilla actual
