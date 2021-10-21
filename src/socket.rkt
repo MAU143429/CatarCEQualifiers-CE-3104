@@ -8,11 +8,11 @@
   (display "Response: ")
   (displayln (read-line in)))
 
-(define (num-games gen)
-  (msg (game (create-team 1 1 20) (create-team 1 2 20)))
+(define (num-games gen out in)
+  (msg (game (create-team 1 1 20) (create-team 1 2 20)) out in)
   (sleep 5)
   (cond (> gen 0)
-        (num-games (- gen 1))))
+        (num-games (- gen 1) out in)))
 
 (define (message equipo-1 equipo-2)
   (list "START" (list "/" (car equipo-1) "/" (cadr equipo-1) "/" (caddr equipo-1))
@@ -22,7 +22,7 @@
   (define-values (in out) (tcp-connect  "127.0.0.1" 9876))
   (msg (message equipo-1 equipo-2) out in)
   
-  (num-games generaciones)
+  (num-games generaciones out in)
   (close-input-port in)
   (close-output-port out)
   )
